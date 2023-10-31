@@ -2,12 +2,10 @@ from tortoise import fields
 from tortoise.models import Model
 
 
-
 class Utilisateur(Model):
     id = fields.IntField(pk=True)
     key = fields.CharField(max_length=100, unique=True)
     created_at = fields.DatetimeField(auto_now_add=True)
-
 
 class Dossier(Model):
     id = fields.IntField(pk=True)
