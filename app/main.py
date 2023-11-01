@@ -36,6 +36,15 @@ DocumentConverti_read_pydantic = pydantic_model_creator(DocumentConverti)
 DocumentConverti_creator_pydantic = pydantic_model_creator(DocumentConverti, exclude_readonly=True, name="DocumentConvertiCreator", exclude=("created_at", "modified_at", "id"))
 
 
+############################
+#  Api welcome controller  #
+############################
+@app.post('/')
+async def welcome():
+    return await {'detail': "welcome to kasus-app"}
+
+
+
 ####################################
 #  Api controller for Utilisateur  #
 ####################################
