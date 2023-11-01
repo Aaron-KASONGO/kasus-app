@@ -40,8 +40,8 @@ DocumentConverti_creator_pydantic = pydantic_model_creator(DocumentConverti, exc
 #  Api welcome controller  #
 ############################
 @app.get('/')
-async def welcome():
-    return await {'detail': "welcome to kasus-app"}
+def welcome():
+    return {'detail': "welcome to kasus-app"}
 
 
 
