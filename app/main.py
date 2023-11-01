@@ -4,7 +4,7 @@ from tortoise.contrib.fastapi import register_tortoise
 from tortoise.contrib.pydantic import pydantic_model_creator
 from tortoise import Tortoise
 
-from database.models import Utilisateur, Dossier, Document, DocumentConverti
+from .database.models import Utilisateur, Dossier, Document, DocumentConverti
 
 
 app = FastAPI()
@@ -12,12 +12,12 @@ app = FastAPI()
 register_tortoise(
     app,
     db_url="sqlite://db.sqlite3",
-    modules={'models': ['database.models', 'main']},
+    modules={'models': ['app.database.models', 'app.main']},
     generate_schemas=True,
     add_exception_handlers=True,
 )
 
-Tortoise.init_models(['database.models', 'main'], 'models')
+Tortoise.init_models(['app.database.models', 'app.main'], 'models')
 
 # Pydantic model for Utilisateur
 Utilisateur_read_pydantic = pydantic_model_creator(Utilisateur)
@@ -35,7 +35,6 @@ Document_creator_pydantic = pydantic_model_creator(Document, exclude_readonly=Tr
 DocumentConverti_read_pydantic = pydantic_model_creator(DocumentConverti)
 DocumentConverti_creator_pydantic = pydantic_model_creator(DocumentConverti, exclude_readonly=True, name="DocumentConvertiCreator", exclude=("created_at", "modified_at", "id"))
 
-print(Document_read_pydantic.schema())
 
 ####################################
 #  Api controller for Utilisateur  #
