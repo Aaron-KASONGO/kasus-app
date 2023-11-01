@@ -5,11 +5,6 @@ FROM python:3.9
 WORKDIR /code
 
 # 
-RUN python -m venv venv
-
-RUN .\env_name\Scripts\activate
-
-# 
 COPY ./requirements.txt /code/requirements.txt
 
 # 
