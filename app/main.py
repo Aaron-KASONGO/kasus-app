@@ -49,9 +49,10 @@ def welcome():
 #  Api controller for Utilisateur  #
 ####################################
 
-@app.post('/get-create-user')
+@app.post('/create-user')
 async def create_user(user: Utilisateur_creator_pydantic):
     user_obj = await Utilisateur.create(**user.model_dump(exclude_unset=True))
+    await Dossier.create(name="__base__", dossier=None, utilisateur=user_obj)
     return await Utilisateur_read_pydantic.from_tortoise_orm(user_obj)
 
 @app.get('/get-users')
@@ -62,19 +63,24 @@ async def create_user():
 #  Api controller for Dossier  #
 ################################
 
-@app.get('/dossiers/{user_id}')
+@app.get('/get-dossiers/{user_id}')
+async def get_dossiers(user_id: int):
+    dossiers = Dossier.filter(utilisateur_id=user_id)
+    return await Dossier_read_pydantic.from_queryset(dossiers)
+
+@app.get('/get-clear-dossiers/{user_id}')
 async def get_dossiers(user_id: int):
     dossiers = Dossier.filter(utilisateur_id=user_id)
     return await Dossier_read_pydantic.from_queryset(dossiers)
 
 # Create Dossier 
-@app.post('/dossiers')
+@app.post('/create-dossier')
 async def create_dossier(dossier: Dossier_creator_pydantic):
     dossier = await Dossier.create(**dossier.model_dump(exclude_unset=True))
     return await Dossier_read_pydantic.from_tortoise_orm(dossier)
 
 # Get a dossier by id
-@app.get('/dossiers/{user_id}/{dossier_id}')
+@app.get('/get-content-dossier/{user_id}/{dossier_id}')
 async def get_dossier_by_id(user_id, dossier_id):
     dossier = await Dossier.get(utilisateur_id=user_id, id=dossier_id)
     return await Dossier_read_pydantic.from_tortoise_orm(dossier)
