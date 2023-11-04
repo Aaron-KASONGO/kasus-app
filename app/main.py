@@ -24,7 +24,7 @@ app.add_middleware(
 
 register_tortoise(
     app,
-    db_url="sqlite://db.sqlite3",
+    db_url="postgres://cmvyyavg:PqrM5Qn1BhiZEz0Mf4DTgRLw2Y4MWJEz@motty.db.elephantsql.com/cmvyyavg",
     modules={'models': ['app.database.models', 'app.main']},
     generate_schemas=True,
     add_exception_handlers=True,
