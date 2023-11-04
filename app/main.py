@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from tortoise.contrib.fastapi import register_tortoise
 from tortoise.contrib.pydantic import pydantic_model_creator
@@ -8,6 +9,18 @@ from .database.models import Utilisateur, Dossier, Document, DocumentConverti
 
 
 app = FastAPI()
+
+origins = [
+    "https://kasusapp1-i1u1jey1.b4a.run"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 register_tortoise(
     app,
