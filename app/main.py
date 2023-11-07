@@ -1,4 +1,6 @@
-from fastapi import FastAPI
+from typing import Annotated
+
+from fastapi import FastAPI, File
 from fastapi.middleware.cors import CORSMiddleware
 
 from tortoise.contrib.fastapi import register_tortoise
@@ -113,3 +115,10 @@ async def get_dossier_by_id(user_id, dossier_id):
 async def get_docuemnts(dossier_id: int):
     documents = Document.filter(dossier_id=dossier_id)
     return await Document_read_pydantic.from_queryset(documents)
+
+@app.post('/upload-image')
+async def upload_image(id_dossier: int, name: str, file: Annotated[bytes, File()]):
+    result = cloudinary.uploader.upload(file, public_id = "kasus_app/olympic_flag")
+    dossier = await Dossier.get(id=id_dossier)
+    document = await Document.create(name=name, document_url=result.get('url'), dossier=dossier)
+    return await document
