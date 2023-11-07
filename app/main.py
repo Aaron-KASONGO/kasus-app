@@ -6,6 +6,8 @@ from tortoise.contrib.pydantic import pydantic_model_creator
 from tortoise import Tortoise
 
 from .database.models import Utilisateur, Dossier, Document, DocumentConverti
+import cloudinary
+import cloudinary.uploader
 
 
 app = FastAPI()
@@ -31,6 +33,11 @@ register_tortoise(
 )
 
 Tortoise.init_models(['app.database.models', 'app.main'], 'models')
+
+#result = cloudinary.uploader.upload("https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg", 
+#  public_id = "kasus_app/olympic_flag")
+
+#print(result.get('url'))
 
 # Pydantic model for Utilisateur
 Utilisateur_read_pydantic = pydantic_model_creator(Utilisateur)

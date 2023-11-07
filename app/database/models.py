@@ -1,5 +1,12 @@
 from tortoise import fields
 from tortoise.models import Model
+import cloudinary
+          
+cloudinary.config( 
+  cloud_name = "mouss", 
+  api_key = "589242817661252", 
+  api_secret = "PhknsOjsQCX3nyu4a5nS6otMH8I" 
+)
 
 
 class Utilisateur(Model):
